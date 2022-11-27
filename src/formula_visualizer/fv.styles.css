@@ -1,0 +1,144 @@
+/**
+ * @note
+ *  Visualizer - component's root element
+ *  - scoped resets
+ *  - scoped variables
+ */
+
+.fv * {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.fv p,
+.fv ul,
+.fv pre {
+  padding: 0;
+  margin: 0;
+}
+
+.fv div {
+  display: inline-block;
+}
+
+.fv button {
+  appearance: none;
+}
+
+.fv {
+  --width: 8px;
+  --padding: 8px;
+  --margin: 8px;
+  --color-bg-default: rgba(50, 50, 50, 1);
+  --color-bg-warn: #ef5959;
+  --color-bg-hover: #9f9f9f;
+  --color-font-default: #fff;
+  --color-line: #e5e5e5;
+  --color-transparent: transparent;
+  --color-paren: hotpink;
+  --color-bodmas: whitesmoke;
+  --color-func: yellow;
+  --color-var: cornflowerblue;
+  --color-number: burlywood;
+  --color-pi: honeydew;
+}
+
+.fv {
+  position: relative;
+  padding: calc(var(--padding) * 2);
+  width: 100%;
+  color: var(--color-font-default);
+  background-color: var(--color-bg-default);
+  text-align: center;
+}
+
+/**
+ * @note
+ *  Visual Formula Block styles
+ */
+.fv-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--padding) * 0.25) calc(var(--padding) * 2.5);
+  border: solid 1px var(--color-transparent);
+  border-radius: var(--width);
+  background-color: var(--color-bg-default);
+}
+
+.fv-block pre {
+  display: inline-block;
+  /**
+   * @note
+   *  prevent PRE elements from being the target of pointer events
+  */
+  pointer-events: none;
+}
+
+.fv-block.is-hover {
+  border-color: var(--color-line);
+}
+
+.delete-block {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  border-radius: 50%;
+  width: calc(var(--width) * 2);
+  height: calc(var(--width) * 2);
+  background-color: var(--color-bg-warn);
+  color: var(--color-font-default);
+  border: solid 1px var(--color-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/**
+ * @note
+ *  Visual styles for distinguishing between functions, constants etc. 
+ *  Formula syntax colors are similar to the VSCode syntax colors for 
+ *  the following test snippet (formula):
+ *    const $a = 10
+ *    const $b = 20
+ *    const SQR = (aNumber: number) => Math.pow(aNumber, 2)
+ *    const SQRT = (aNumber: number) => Math.sqrt(aNumber)
+ *    const testSnippet = ($b + SQRT(SQR($b) - 4 * $a)) / (2 * $a)
+ *
+ *  @note
+ *   VSCode parentheses uses at least 3 distinct colors to represent
+ *   nested parentheses. Current implementation uses a single color.
+ */
+
+.fv-block.fv-paren > pre {
+  color: var(--color-paren);
+}
+
+.fv-block.fv-division > pre,
+.fv-block.fv-multiplication > pre,
+.fv-block.fv-addition > pre,
+.fv-block.fv-subtraction > pre {
+  color: var(--color-bodmas);
+}
+
+.fv-block.fv-function > pre {
+  color: var(--color-func);
+}
+
+.fv-block.fv-variable > pre {
+  color: var(--color-var);
+}
+
+.fv-block.fv-number > pre {
+  color: var(--color-number);
+}
+
+.fv-block.fv-pi > pre {
+  color: var(--color-pi);
+}
+
+.fv-block.fv-noop {
+  color: transparent;
+}

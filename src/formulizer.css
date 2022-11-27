@@ -1,0 +1,76 @@
+/**
+ * @note
+ *  CSS resets
+ */
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h3,
+h4,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  line-height: 1.5;
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/**
+ * @note
+ *  formulizer styles
+ */
+
+.formulizer {
+  width: 100%;
+  padding: 16px;
+}
+
+.input-formula,
+.plaintext-to-ast,
+.ast-to-formula {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  border-bottom: solid 1px lightgray;
+}
+
+.plaintext-to-ast > h3 > button,
+.ast-to-formula > h3 > button {
+  margin-left: 8px;
+}
+
+.interactive-formula,
+.plaintext-formula {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.interactive-formula h4,
+.plaintext-formula h4 {
+  width: 100%;
+}
