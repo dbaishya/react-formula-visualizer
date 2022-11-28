@@ -11,7 +11,10 @@ const labels = {
  * @returns JSX.Element
  */
 export const FVBlock = ({ ast }: { ast: FVExpression }) => {
-  const { dispatch } = useFV()
+  const {
+    dispatch,
+    state: { error },
+  } = useFV()
   const [isHover, setIsHover] = useState(false)
   const ref = useRef(null)
 
@@ -50,8 +53,9 @@ export const FVBlock = ({ ast }: { ast: FVExpression }) => {
     [dispatch]
   )
 
-  const isHoverClass = isHover ? 'is-hover' : ''
   const { id: nodeId, type } = ast
+  const isHoverClass = isHover ? 'is-hover' : ''
+  const isErrorClass = error && error.id === nodeId ? 'is-error' : ''
 
   const childBlocks = (ast: FVExpression) => {
     switch (ast.type) {
@@ -170,7 +174,7 @@ export const FVBlock = ({ ast }: { ast: FVExpression }) => {
   return (
     <div
       ref={ref}
-      className={`fv-block ${isHoverClass} fv-${type.toLowerCase()}`}
+      className={`fv-block ${isHoverClass} ${isErrorClass} fv-${type.toLowerCase()}`}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       onClick={(event) => handleDeleteBlock(event, nodeId)}

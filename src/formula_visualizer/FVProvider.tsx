@@ -8,10 +8,27 @@ import React, {
   useEffect,
 } from 'react'
 import type { FVExpression, FVExpressionId } from './types'
-import { updateASTNode, deleteASTNode } from './utils'
+import {
+  convertToPlaintext,
+  deleteASTNode,
+  parseFormula,
+  updateASTNode,
+} from './utils'
+
+/**
+ * @note
+ *  shape of error should come from parser utility
+ *  for simplicity using message:string
+ */
+
+type FVError = {
+  message: string
+  id: FVExpressionId
+}
 
 export type FVState = {
   ast: FVExpression
+  error: FVError | null
 }
 
 export type FVAction =
@@ -42,6 +59,7 @@ export type FVAction =
 
 const initialFVState: FVState = {
   ast: { type: 'NOOP' },
+  error: null,
 }
 
 const fvReducer = (state: FVState = initialFVState, action: FVAction) => {
@@ -67,9 +85,29 @@ const fvReducer = (state: FVState = initialFVState, action: FVAction) => {
       const {
         payload: { id: deleteNodeId },
       } = action
-      return {
-        ...state,
-        ast: deleteASTNode({ ...state.ast }, deleteNodeId),
+      const tmpAst: FVExpression = deleteASTNode({ ...state.ast }, deleteNodeId)
+      const tmpFormulaStr = convertToPlaintext(tmpAst)
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const _tmpParsedFormula = parseFormula(tmpFormulaStr)
+        return {
+          ...state,
+          ast: { ...tmpAst },
+          error: null,
+        }
+      } catch (error: unknown) {
+        const { message: errorMessage } = error as {
+          hash: unknown
+          message: string
+          stack: unknown
+        }
+        return {
+          ...state,
+          error: {
+            message: errorMessage,
+            id: deleteNodeId,
+          },
+        }
       }
     }
     default:
