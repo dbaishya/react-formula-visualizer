@@ -135,7 +135,7 @@
   width: calc(var(--width) * 2);
   height: calc(var(--width) * 2);
   background-color: var(--color-bg-warn);
-  color: var(--color-font-default);
+  color: var(--color-line);
   border: none;
   display: flex;
   align-items: center;
